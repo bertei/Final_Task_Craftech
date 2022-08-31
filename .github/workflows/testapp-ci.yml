@@ -1,0 +1,34 @@
+name: TestApp-CI
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  DockerImage-Build-Push:
+    runs-on: ubuntu-latest ##runner OS
+    steps:
+      - name: Checkout ##runner git clone
+        uses: actions/checkout@v3
+      - name: Set up QEMU ##used to provide emulated environments for builiding on architecture other than the host arch
+        uses: docker/setup-qemu-action@v2
+      - name: Login to Dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build Backend Image and Push to Dockerhub
+        uses: docker/build-push-action@v3
+        with:
+          file: Dockerfile
+          context: test-app-backend/
+          push: true
+          tags: bernaa77/testapp-backend:latest
+      - name: Build Frontend Image and Push to Dockerhub
+        uses: docker/build-push-action@v3
+        with:
+          file: Dockerfile
+          context: test-app-frontend/
+          push: true
+          tags: bernaa77/testapp-frontend:latest
