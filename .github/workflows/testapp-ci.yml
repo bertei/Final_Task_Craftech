@@ -22,13 +22,13 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           file: Dockerfile
-          context: test-app-backend/
+          context: ./test-app-backend/
           push: true
           tags: bernaa77/testapp-backend:latest
       - name: Build Frontend Image and Push to Dockerhub
         uses: docker/build-push-action@v3
         with:
           file: Dockerfile
-          context: test-app-frontend/
+          context: ./test-app-frontend/
           push: true
           tags: bernaa77/testapp-frontend:latest
