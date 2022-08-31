@@ -1,8 +1,0 @@
-name: Testapp_CI
-
-on:
-  push:
-    branches:
-      - dev
-
-jobs:
