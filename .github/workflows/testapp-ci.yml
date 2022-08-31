@@ -21,7 +21,7 @@ jobs:
       - name: Build Backend Image and Push to Dockerhub
         uses: docker/build-push-action@v3
         with:
-          file: Dockerfile
-          context: ./test-app-backend/
+          file: ./test-app-backend/Dockerfile
+          context: .
           push: true
           tags: bernaa77/testapp-backend:latest
