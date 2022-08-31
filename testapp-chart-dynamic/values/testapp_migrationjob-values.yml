@@ -1,0 +1,23 @@
+manifestName: migrationjob-manifest
+containerName: migrationjob-container
+appImage: bernaa77/craftech-backend-app
+appImageTag: latest
+containerEnvVars:
+  - name: SECRET_KEY
+    value: kKZTp39JgXXe4kcp
+  - name: ALLOWED_HOSTS
+    value: "['*']"
+  - name: SQL_ENGINE
+    value: django.db.backends.postgresql
+  - name: SQL_DATABASE
+    value: testapp-db
+  - name: SQL_USER
+    value: admin
+  - name: SQL_PASSWORD
+    value: "12345678"
+  - name: SQL_HOST
+    value: testapp-db-service
+  - name: SQL_PORT
+    value: "5432"
+  - name: RUNSERVER_PORT
+    value: "8000"
