@@ -32,3 +32,17 @@ jobs:
           context: .
           push: true
           tags: bernaa77/testapp-frontend:latest
+  Minikube-Helm-Setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Minikube Setup
+        uses: meyagh/setup-minikube@master
+      - name: Helm Setup
+        uses: azure/setup-helm@v3
+        with:
+          version: '3.9.0'
+      - name: Install Helm Chart
+        run:  ./helm_install.sh
+
