@@ -2,7 +2,7 @@ FROM node:18-bullseye
 
 WORKDIR /frontend
 
-COPY . /frontend/
+COPY test-app-frontend/ .
 
 RUN npm install
 
