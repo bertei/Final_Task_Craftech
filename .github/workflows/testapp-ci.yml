@@ -43,10 +43,9 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: '3.9.0'
-      - name: where tf am i?
+      - name: Set up etc/hosts
         run : |
-          pwd
-          ls -l
+          sudo echo "127.0.0.1 testapp.dev" | sudo tee -a /etc/hosts
       - name: Install Helm Chart
         run:  ./testapp-chart-dynamic/helm_install.sh
 
