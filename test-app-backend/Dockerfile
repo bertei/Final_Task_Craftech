@@ -10,9 +10,9 @@ COPY . .
 
 RUN ls -l
 
-RUN cat ./requirements.txt
+RUN ./test-app-backend/requirements.txt
 
-RUN python -m pip install -r backend/requirements.txt
+RUN python -m pip install -r ./test-app-backend/requirements.txt
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
