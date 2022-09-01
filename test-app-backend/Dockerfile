@@ -9,15 +9,7 @@ WORKDIR /backend
 
 COPY test-app-backend/ .
 
-RUN pwd
-
-RUN ls -l
-
-RUN ls -l ./test-app-backend/
-
-RUN cat ./test-app-backend/requirements.txt
-
-RUN python -m pip install -r ./test-app-backend/requirements.txt
+RUN python -m pip install -r requirements.txt
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
