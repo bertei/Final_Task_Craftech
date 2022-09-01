@@ -47,7 +47,7 @@ jobs:
           version: '3.9.0'
       - name: Set up etc/hosts
         run : |
-          sudo echo "127.0.0.1 testapp.dev" | sudo tee -a /etc/hosts
+          sudo echo "$(minikube ip) testapp.dev" | sudo tee -a /etc/hosts
       - name: Install Helm Chart
         run:  ./testapp-chart-dynamic/helm_install.sh
 
