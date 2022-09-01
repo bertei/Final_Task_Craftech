@@ -6,9 +6,14 @@ RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev zlib-dev jpeg-
 RUN pip install --upgrade pip
 
 WORKDIR /backend
-COPY . .
+
+COPY test-app-backend/ .
+
+RUN pwd
 
 RUN ls -l
+
+RUN ls -l ./test-app-backend/
 
 RUN cat ./test-app-backend/requirements.txt
 
