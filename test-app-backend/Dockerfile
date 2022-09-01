@@ -10,7 +10,7 @@ COPY . .
 
 RUN ls -l
 
-RUN ./test-app-backend/requirements.txt
+RUN cat ./test-app-backend/requirements.txt
 
 RUN python -m pip install -r ./test-app-backend/requirements.txt
 
