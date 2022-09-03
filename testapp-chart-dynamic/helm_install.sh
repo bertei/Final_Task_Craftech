@@ -11,4 +11,4 @@ minikube service list
 minikube service testapp-frontend-service --url
 echo "------------------opening the service------------------"
 curl $(minikube service testapp-frontend-service --url)
-curl $(minikube ip):30443
+
