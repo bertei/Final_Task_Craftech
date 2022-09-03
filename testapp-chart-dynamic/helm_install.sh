@@ -4,7 +4,6 @@ helm install -f testapp-chart-dynamic/values/testapp_frontend-values.yml testapp
 kubectl apply -f testapp-chart-dynamic/testapp-ingress.yml
 kubectl get all
 kubectl get ingress
-curl $(minikube ip)/frontend
+curl testapp.dev/frontend
 sleep 3
-curl $(minikube ip)/backend
-curl $(minikube ip)
+curl testapp.dev/backend
