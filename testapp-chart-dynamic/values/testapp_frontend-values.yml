@@ -7,6 +7,6 @@ containerName: frontend-container
 containerPort: 3000
 
 serviceName: testapp-frontend-service
-serviceType: ClusterIp
+serviceType: ClusterIP
 servicePort: 3000
 #nodePort: 30443
