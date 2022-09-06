@@ -18,7 +18,7 @@ spec:
                 port:
                   number: 3000
           - path: /backend
-            pathType: Exact
+            pathType: Prefix
             backend:
               service:
                 name: testapp-backend-service

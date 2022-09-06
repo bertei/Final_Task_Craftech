@@ -26,6 +26,6 @@ containerEnvVars:
     value: "8000"
 
 serviceName: testapp-backend-service
-serviceType: ClusterIP
+serviceType: NodePort
 servicePort: 8000
-  
+targetPort: 30443
