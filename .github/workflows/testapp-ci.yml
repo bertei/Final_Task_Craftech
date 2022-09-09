@@ -31,26 +31,34 @@ jobs:
       #    file: ./test-app-frontend/Dockerfile
       #    context: .
       #    push: true
-      #    tags: bernaa77/testapp-frontend:${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }}
-  #Minikube-Helm-Setup:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - name: Checkout
-  #      uses: actions/checkout@v3
-  #    - name: Minikube Setup
-  #      uses: medyagh/setup-minikube@master
-  #    - name: Minikube Ingress addon installation
-  #      run: |
-  #        minikube addons enable ingress
-  #        sleep 10
-  #        kubectl get pods -n ingress-nginx
-  #    - name: Helm Setup
-  #      uses: azure/setup-helm@v3
-  #      with:
-  #        version: '3.9.0'
-  #    - name: Set up etc/hosts
-  #      run : |
-  #        sudo echo "$(minikube ip) testapp.dev" | sudo tee -a /etc/hosts
-  #    - name: Install Helm Chart
-  #      run:  ./testapp-chart-dynamic/helm_install.sh
+     #    tags: bernaa77/testapp-frontend:${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }}
+  Minikube-Helm-Setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Minikube Setup
+        uses: medyagh/setup-minikube@master
+      #- name: Minikube Ingress addon installation
+      #  run: |
+      #    minikube addons enable ingress
+      #    sleep 10
+      #    kubectl get pods -n ingress-nginx
+      - name: Helm Setup
+        uses: azure/setup-helm@v3
+        with:
+          version: '3.9.0'
+      #- name: Set up etc/hosts
+      #  run : |
+      #    sudo echo "$(minikube ip) testapp.dev" | sudo tee -a /etc/hosts
+      #- name: Install Helm Chart
+      #  run:  ./testapp-chart-dynamic/helm_install.sh
+      - name: Test Helm backend
+        run: |
+          helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }} testapp-back-microservice testapp-chart-dynamic
+          kubectl get all
+          minikube service testapp-backend-service --url
+          echo "------------------opening backend service------------------"
+          curl $(minikube service testapp-backend-service --url)
 
+          

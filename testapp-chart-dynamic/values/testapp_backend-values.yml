@@ -2,7 +2,7 @@ manifestName: testappbackend-deployment
 replicasNumber: 1
 appName: testapp-backend
 appImage: bernaa77/testapp-backend
-appImageTag: latest
+appImageTag: default
 containerName: backend-container
 containerPort: 8000
 containerEnvVars:
