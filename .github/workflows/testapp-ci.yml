@@ -31,7 +31,7 @@ jobs:
           file: ./test-app-frontend/Dockerfile
           context: .
           push: true
-          tags: bernaa77/testapp-frontend:${{ github.head_ref }}.${{ github.sha }}
+          tags: bernaa77/testapp-frontend:${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }}
   #Minikube-Helm-Setup:
   #  runs-on: ubuntu-latest
   #  steps:
