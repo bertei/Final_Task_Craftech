@@ -56,10 +56,8 @@ jobs:
       - name: Test Helm backend
         run: |
           helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }} testapp-back-microservice testapp-chart-dynamic --timeout "3m0s"
-          kubectl describe pod --all-namespaces| grep testapp
-          kubectl get all
-          minikube service testapp-backend-service --url
-          echo "------------------opening backend service------------------"
-          curl $(minikube service testapp-backend-service --url)
+          POD=$(kubectl get pod -l app=testapp-backend -o jsonpath="{.items[0].metadata.name}")
+          kubectl describe pod $POD
+          
 
           
