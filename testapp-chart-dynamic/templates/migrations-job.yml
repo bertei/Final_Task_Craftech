@@ -4,6 +4,7 @@ metadata:
   name: backend-migration-manifest
   annotations:
     "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": "hook-succeeded"
 spec:
   template:
     spec:
