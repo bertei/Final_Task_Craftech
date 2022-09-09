@@ -24,14 +24,14 @@ jobs:
           file: ./test-app-backend/Dockerfile
           context: .
           push: true
-          tags: bernaa77/testapp-backend:${{ github.head_ref }}.${{ github.sha }}
-      - name: Build Frontend Image and Push to Dockerhub
-        uses: docker/build-push-action@v3
-        with:
-          file: ./test-app-frontend/Dockerfile
-          context: .
-          push: true
-          tags: bernaa77/testapp-frontend:${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }}
+          tags: bernaa77/testapp-backend:${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }}
+      #- name: Build Frontend Image and Push to Dockerhub
+      #  uses: docker/build-push-action@v3
+      #  with:
+      #    file: ./test-app-frontend/Dockerfile
+      #    context: .
+      #    push: true
+      #    tags: bernaa77/testapp-frontend:${{ github.ref_name }}_${{ github.run_id }}_${{ github.sha }}
   #Minikube-Helm-Setup:
   #  runs-on: ubuntu-latest
   #  steps:
