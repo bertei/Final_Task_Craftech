@@ -55,9 +55,14 @@ jobs:
       #  run:  ./testapp-chart-dynamic/helm_install.sh
       - name: Test Helm backend
         run: |
-          helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=test01 testapp-back-microservice testapp-chart-dynamic --timeout "3m0s"
+          helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=test02 testapp-back-microservice testapp-chart-dynamic --timeout "3m0s"      
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
+      - name: Describe pod
+        run : |
           POD=$(kubectl get pod -l app=testapp-backend -o jsonpath="{.items[0].metadata.name}")
           kubectl describe pod $POD
-          
 
           
