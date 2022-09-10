@@ -60,7 +60,7 @@ jobs:
       - name: Sleep for 30 seconds
         uses: jakejarvis/wait-action@master
         with:
-          time: '30s'
+          time: '80s'
       - name: Describe pod
         run : |
           POD=$(kubectl get pod -l app=testapp-frontend -o jsonpath="{.items[0].metadata.name}")
