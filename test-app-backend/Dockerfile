@@ -6,11 +6,20 @@ RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev zlib-dev jpeg-
 RUN pip install --upgrade pip
 
 WORKDIR /backend
+<<<<<<< HEAD
+COPY . /backend
+
+RUN python -m pip install -r requirements.txt
+
+#ENV RUNSERVER_PORT=8000
+
+=======
 
 COPY test-app-backend/ .
 
 RUN python -m pip install -r requirements.txt
 
+>>>>>>> prod
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 
