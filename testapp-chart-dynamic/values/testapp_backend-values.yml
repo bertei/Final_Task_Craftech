@@ -1,8 +1,8 @@
 manifestName: testappbackend-deployment
 replicasNumber: 1
 appName: testapp-backend
-appImage: bernaa77/craftech-backend2-app
-appImageTag: latest
+appImage: bernaa77/testapp-backend
+#appImageTag: asd
 containerName: backend-container
 containerPort: 8000
 containerEnvVars:
@@ -26,6 +26,6 @@ containerEnvVars:
     value: "8000"
 
 serviceName: testapp-backend-service
-serviceType: ClusterIP
+serviceType: NodePort
 servicePort: 8000
-  
+targetPort: 30443

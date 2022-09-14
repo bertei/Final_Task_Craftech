@@ -1,11 +1,12 @@
 manifestName: testappfrontend-deployment
 replicasNumber: 1
 appName: testapp-frontend
-appImage: bernaa77/craftech-frontend-app
-appImageTag: latest
+appImage: bernaa77/testapp-frontend
+#appImageTag: latest
 containerName: frontend-container
 containerPort: 3000
 
 serviceName: testapp-frontend-service
-serviceType: ClusterIP
+serviceType: NodePort
 servicePort: 3000
+nodePort: 30443
