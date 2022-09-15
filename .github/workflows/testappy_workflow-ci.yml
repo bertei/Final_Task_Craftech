@@ -13,15 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'
+        run: |
+         apt-get update && apk add postgresql-dev gcc python3-dev musl-dev zlib-dev jpeg-dev graphviz-dev libpq
       - name: Install dependencies
         run: |
           ls -l .
           cd ./test-app-backend
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --upgrade pip
+          python -m pip install -r requirements.txt
       - name: Test with pytest
         run: pytest
 
