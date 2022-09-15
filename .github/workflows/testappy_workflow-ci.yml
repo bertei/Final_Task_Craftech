@@ -1,12 +1,13 @@
 name: App_TestPy_Workflow
 
 on:
-  pull_request:
-    branches:
-      - dev
-      - prod
-      - main
-
+  #pull_request:
+  #  branches:
+  #    - dev
+  #    - prod
+  #    - main
+  push:
+    - prod
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,7 +24,9 @@ jobs:
           pip install --upgrade pip
           python -m pip install -r requirements.txt
       - name: Test with pytest
-        run: pytest
+        run: | 
+          ls -l
+          pytest
 
 
 
