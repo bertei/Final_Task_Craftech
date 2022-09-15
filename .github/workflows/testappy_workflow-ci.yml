@@ -27,6 +27,7 @@ jobs:
       - name: Test with pytest
         run: | 
           ls -l
+          cd ./test-app-backend
           pytest
 
 
