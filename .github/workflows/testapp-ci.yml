@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - dev
-      #- prod
+      - prod
 
 jobs:
   DockerImage-Build-Push:
@@ -12,21 +12,21 @@ jobs:
     steps:
       - name: Checkout ##runner git clone
         uses: actions/checkout@v3
-      - name: Set up QEMU ##used to provide emulated environments for builiding on architecture other than the host arch
+      - name: Set up QEMU ##used to provide emulated environments for builiding on architecture other than the host arch.
         uses: docker/setup-qemu-action@v2
-      - name: Login to Dockerhub
+      - name: Login to Dockerhub ##This step/action logs runner into dockerhub account.
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      #- name: Build Backend Image and Push to Dockerhub
-      #  uses: docker/build-push-action@v3
-      #  with:
-      #    file: ./test-app-backend/Dockerfile
-      #    context: .
-      #    push: true
-      #    tags: bernaa77/testapp-backend:${{ github.ref_name }}
-      - name: Build Frontend Image and Push to Dockerhub
+      - name: Build Backend Image and Push to Dockerhub
+        uses: docker/build-push-action@v3 ##Builds the image located in 'file: path' and pushes it into your docker hub acc.
+        with:
+          file: ./test-app-backend/Dockerfile
+          context: .
+          push: true
+          tags: bernaa77/testapp-backend:${{ github.ref_name }}_${{ github.run_id }} ##tags uses 'branch name + workflow run id'
+      - name: Build Frontend Image and Push to Dockerhub 
         uses: docker/build-push-action@v3
         with:
           file: ./test-app-frontend/Dockerfile
@@ -40,16 +40,16 @@ jobs:
     if: (github.ref == 'refs/heads/dev') ##This Job will run only in 'dev' branch.
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 ##Clones your repo inside the runner.
       - name: Minikube Setup
-        uses: medyagh/setup-minikube@master
+        uses: medyagh/setup-minikube@master ##Installs 'minikube' inside the runner.
       #- name: Minikube Ingress addon installation
       #  run: |
       #    minikube addons enable ingress
       #    sleep 10
       #    kubectl get pods -n ingress-nginx
       - name: Helm Setup
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v3 ##Installs 'Helm' inside the runner.
         with:
           version: '3.9.0'
       #- name: Set up etc/hosts
@@ -58,18 +58,34 @@ jobs:
       #- name: Install Helm Chart
       #  run:  ./testapp-chart-dynamic/helm_install.sh
       # helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=test02 testapp-back-microservice testapp-chart-dynamic --timeout "3m0s"
-      - name: Test Helm backend
+      - name: Install helm chart's
         run: |
+          helm upgrade --install -f testapp-chart-dynamic/values/testapp_db-values.yml testapp-db-microservice testapp-chart-dynamic
           helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }} testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"      
+          helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }} testapp-backend-microservice testapp-chart-dynamic --timeout "3m0s"
       - name: Sleep for 30 seconds
         uses: jakejarvis/wait-action@master
         with:
           time: '80s'
-      - name: Describe pod
+      - name: Describe pod's
         run : |
-          POD=$(kubectl get pod -l app=testapp-frontend -o jsonpath="{.items[0].metadata.name}")
-          kubectl describe pod $POD
-
+          POD1=$(kubectl get pod -l app=testapp-frontend -o jsonpath="{.items[0].metadata.name}")
+          kubectl describe pod $POD1
+          POD2=$(kubectl get pod -l app=testapp-backend -o jsonpath="{.items[0].metadata.name}")
+          kubectl describe pod $POD2
+          POD3=$(kubectl get pod -l app=postgres-app -o jsonpath="{.items[0].metadata.name}")
+          kubectl describe pod $POD3
+      - name: Expose services using minikube 'service' command
+        run: |
+          echo "------------------Minikube service list------------------"
+          minikube service list
+          minikube service testapp-frontend-service --url
+          echo "------------------opening frontend service------------------"
+          curl $(minikube service testapp-frontend-service --url)
+          minikube service testapp-backend-service --url
+          echo "------------------opening backend service------------------"
+          curl $(minikube service testapp-backend-service --url)
+      
   Minikube-Helm-Setup-Prod:
     needs: [ DockerImage-Build-Push ] ##This Job will only run after "docker-build-push" job is executed sucesfully.
     runs-on: ubuntu-latest
