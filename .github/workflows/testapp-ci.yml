@@ -8,7 +8,7 @@ on:
 
 jobs:
   DockerImage-Build-Push:
-    runs-on: ubuntu-latest ##runner OS
+    runs-on: self-hosted ##runner OS
     steps:
       - name: Checkout ##runner git clone
         uses: actions/checkout@v3
@@ -36,7 +36,7 @@ jobs:
   
   Minikube-Helm-Setup-Prod:
     needs: [ DockerImage-Build-Push ] ##This Job will only run after "docker-build-push" job is executed sucesfully.
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: (github.ref == 'refs/heads/prod') ##This Job will run only in 'dev' branch.
     environment:
       name: prod
@@ -90,7 +90,7 @@ jobs:
       
   Minikube-Helm-Setup-Dev:
     needs: [ DockerImage-Build-Push ] ##This Job will only run after "docker-build-push" job is executed sucesfully.
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: (github.ref == 'refs/heads/dev') ##This Job will run only in 'dev' branch.
     steps:
       - name: Checkout
