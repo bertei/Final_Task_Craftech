@@ -15,7 +15,7 @@ jobs:
       - name: Set up QEMU ##used to provide emulated environments for builiding on architecture other than the host arch.
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx #
-        uses: docker/setup-buildx-action@mv2
+        uses: docker/setup-buildx-action@v2
         with:
           driver: kubernetes
       - name: Login to Dockerhub ##This step/action logs runner into dockerhub account.
