@@ -29,13 +29,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build Backend Image and Push to Dockerhub
-        uses: docker/build-push-action@v3 ##Builds the image located in 'file: path' and pushes it into your docker hub acc.
-        with:
-          file: ./test-app-backend/Dockerfile
-          context: .
-          push: true
-          tags: bernaa77/testapp-backend:${{ github.ref_name }}_${{ github.run_id }} ##tags uses 'branch name + workflow run id'
+      #- name: Build Backend Image and Push to Dockerhub
+      #  uses: docker/build-push-action@v3 ##Builds the image located in 'file: path' and pushes it into your docker hub acc.
+      #  with:
+      #    file: ./test-app-backend/Dockerfile
+      #    context: .
+      #    push: true
+      #    tags: bernaa77/testapp-backend:${{ github.ref_name }}_${{ github.run_id }} ##tags uses 'branch name + workflow run id'
       - name: Build Frontend Image and Push to Dockerhub 
         uses: docker/build-push-action@v3
         with:
