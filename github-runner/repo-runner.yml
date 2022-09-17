@@ -1,7 +1,10 @@
 apiVersion: actions.summerwind.dev/v1alpha1
-kind: Runner
+kind: RunnerDeployment
 metadata:
   name: repo-runner
 spec:
-  repository: bertei/Final_Task_Craftech
-  env: []
+  replicas: 1
+  template:
+    spec:
+      repository: bertei/Final_Task_Craftech
+  
