@@ -99,40 +99,40 @@ on:
           echo "------------------opening backend service------------------"
           curl $(minikube service testapp-backend-service --url)
       
-  Minikube-Helm-Setup-Dev:
-    needs: [ DockerImage-Build-Push ] ##This Job will only run after "docker-build-push" job is executed sucesfully.
-    runs-on: self-hosted
-    if: (github.ref == 'refs/heads/dev') ##This Job will run only in 'dev' branch.
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Minikube Setup
-        uses: medyagh/setup-minikube@master
-      #- name: Minikube Ingress addon installation
-      #  run: |
-      #    minikube addons enable ingress
-      #    sleep 10
-      #    kubectl get pods -n ingress-nginx
-      - name: Helm Setup
-        uses: azure/setup-helm@v3
-        with:
-          version: '3.9.0'
-      #- name: Set up etc/hosts
-      #  run : |
-      #    sudo echo "$(minikube ip) testapp.dev" | sudo tee -a /etc/hosts
-      #- name: Install Helm Chart
-      #  run:  ./testapp-chart-dynamic/helm_install.sh
-      # helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=test02 testapp-back-microservice testapp-chart-dynamic --timeout "3m0s"
-      - name: Test Helm backend
-        run: |
-          helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }} testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"      
-      - name: Sleep for 30 seconds
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '80s'
-      - name: Describe pod
-        run : |
-          POD=$(kubectl get pod -l app=testapp-frontend -o jsonpath="{.items[0].metadata.name}")
-          kubectl describe pod $POD
+  #Minikube-Helm-Setup-Dev:
+  #  needs: [ DockerImage-Build-Push ] ##This Job will only run after "docker-build-push" job is executed sucesfully.
+  #  runs-on: self-hosted
+  #  if: (github.ref == 'refs/heads/dev') ##This Job will run only in 'dev' branch.
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v3
+  #    - name: Minikube Setup
+  #      uses: medyagh/setup-minikube@master
+  #    #- name: Minikube Ingress addon installation
+  #    #  run: |
+  #    #    minikube addons enable ingress
+  #    #    sleep 10
+  #    #    kubectl get pods -n ingress-nginx
+  #    - name: Helm Setup
+  #      uses: azure/setup-helm@v3
+  #      with:
+  #        version: '3.9.0'
+  #    #- name: Set up etc/hosts
+  #    #  run : |
+  #    #    sudo echo "$(minikube ip) testapp.dev" | sudo tee -a /etc/hosts
+  #    #- name: Install Helm Chart
+  #    #  run:  ./testapp-chart-dynamic/helm_install.sh
+  #    # helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=test02 testapp-back-microservice testapp-chart-dynamic --timeout "3m0s"
+  #    - name: Test Helm backend
+  #      run: |
+  #        helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }} testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"      
+  #    - name: Sleep for 30 seconds
+  #      uses: jakejarvis/wait-action@master
+  #      with:
+  #        time: '80s'
+  #    - name: Describe pod
+  #      run : |
+  #        POD=$(kubectl get pod -l app=testapp-frontend -o jsonpath="{.items[0].metadata.name}")
+  #        kubectl describe pod $POD
 
           
