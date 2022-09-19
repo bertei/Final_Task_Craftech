@@ -15,7 +15,7 @@ spec:
       containers:
       - name: {{ .Values.containerName }}
         image: "{{ .Values.appImage }}:{{ .Values.appImageTag }}"
-        #serviceAccountName: service-account-1
+        serviceAccountName: service-account-1
         ports:
         - containerPort: {{ .Values.containerPort }}
         env:
