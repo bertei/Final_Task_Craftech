@@ -6,7 +6,7 @@ on:
       - dev
       - prod
 
-#jobs:
+jobs:
 #  DockerImage-Build-Push:
 #    runs-on: self-hosted ##runner OS
 #    steps:
