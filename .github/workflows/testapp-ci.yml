@@ -54,7 +54,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3 ##Clones your repo inside the runner.
       - name: Helm Setup
-        uses: azure/setup-helm@v3 ##Installs 'Helm' inside the runner.
+        uses: azure/setup-helm@v3 ##Installs 'Helm' inside the runner.#
         with:
           version: '3.9.0'
       - name: Install helm chart's
