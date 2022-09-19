@@ -6,43 +6,43 @@ on:
       - dev
       - prod
 
-jobs:
-  DockerImage-Build-Push:
-    runs-on: self-hosted ##runner OS
-    steps:
-      - name: Checkout ##runner git clone
-        uses: actions/checkout@v3
-      - name: Set up QEMU ##used to provide emulated environments for builiding on architecture other than the host arch.
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Context for Buildx
-        id: buildx-context
-        run: |
-          docker context create builders
-      - name: Set up Docker Buildx ####
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          version: latest
-          endpoint: builders
-      - name: Login to Dockerhub ##This step/action logs runner into dockerhub account.
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build Backend Image and Push to Dockerhub
-        uses: docker/build-push-action@v3 ##Builds the image located in 'file: path' and pushes it into your docker hub acc.
-        with:
-          file: ./test-app-backend/Dockerfile
-          context: .
-          push: true
-          tags: bernaa77/testapp-backend:${{ github.ref_name }}_${{ github.run_id }} ##tags uses 'branch name + workflow run id'
-      - name: Build Frontend Image and Push to Dockerhub 
-        uses: docker/build-push-action@v3
-        with:
-          file: ./test-app-frontend/Dockerfile
-          context: .
-          push: true
-          tags: bernaa77/testapp-frontend:${{ github.ref_name }}_${{ github.run_id }}
+#jobs:
+#  DockerImage-Build-Push:
+#    runs-on: self-hosted ##runner OS
+#    steps:
+#      - name: Checkout ##runner git clone
+#        uses: actions/checkout@v3
+#      - name: Set up QEMU ##used to provide emulated environments for builiding on architecture other than the host arch.
+#        uses: docker/setup-qemu-action@v2
+#      - name: Set up Docker Context for Buildx
+#        id: buildx-context
+#        run: |
+#          docker context create builders
+#      - name: Set up Docker Buildx ####
+#        id: buildx
+#        uses: docker/setup-buildx-action@v2
+#        with:
+#          version: latest
+#          endpoint: builders
+#      - name: Login to Dockerhub ##This step/action logs runner into dockerhub account.
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+#      - name: Build Backend Image and Push to Dockerhub
+#        uses: docker/build-push-action@v3 ##Builds the image located in 'file: path' and pushes it into your docker hub acc.
+#        with:
+#          file: ./test-app-backend/Dockerfile
+#          context: .
+#          push: true
+#          tags: bernaa77/testapp-backend:${{ github.ref_name }}_${{ github.run_id }} ##tags uses 'branch name + workflow run id'
+#      - name: Build Frontend Image and Push to Dockerhub 
+#        uses: docker/build-push-action@v3
+#        with:
+#          file: ./test-app-frontend/Dockerfile
+#          context: .
+#          push: true
+#          tags: bernaa77/testapp-frontend:${{ github.ref_name }}_${{ github.run_id }}
   
   Minikube-Helm-Setup-Prod:
     needs: [ DockerImage-Build-Push ] ##This Job will only run after "docker-build-push" job is executed sucesfully.
@@ -72,9 +72,10 @@ jobs:
       # helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=test02 testapp-back-microservice testapp-chart-dynamic --timeout "3m0s"
       - name: Install helm chart's
         run: |
+          kubectl apply -f permissions.yml 
           helm upgrade --install -f testapp-chart-dynamic/values/testapp_db-values.yml testapp-db-microservice testapp-chart-dynamic
-          helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }} testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"      
-          helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=${{ github.ref_name }}_${{ github.run_id }} testapp-backend-microservice testapp-chart-dynamic --timeout "3m0s"
+          helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=latest testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"      
+          helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=latest testapp-backend-microservice testapp-chart-dynamic --timeout "3m0s"
       - name: Sleep for 30 seconds
         uses: jakejarvis/wait-action@master
         with:
