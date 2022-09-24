@@ -10,14 +10,14 @@ metadata:
   # "namespace" omitted since ClusterRoles are not namespaced
   name: repo-runner-clusterole
 rules:
-- apiGroups: ["", "apps"]
+- apiGroups: ["", "apps", "rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["get", "watch", "list", "create", "update", "delete"]
-- apiGroups: ["rbac.authorization.k8s.io"]
-  resources:
-    - clusterroles
-    - clusterrolebindings
-  verbs: ["get", "watch", "list", "create", "update", "delete"]
+#- apiGroups: ["rbac.authorization.k8s.io"]
+#  resources:
+#    - clusterroles
+#    - clusterrolebindings
+#  verbs: ["get", "watch", "list", "create", "update", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
