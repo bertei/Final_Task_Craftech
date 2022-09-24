@@ -7,5 +7,4 @@ spec:
   template:
     spec:
       repository: bertei/Final_Task_Craftech
-      #serviceAccountName: service-account-1
   
