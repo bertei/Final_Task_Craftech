@@ -5,8 +5,8 @@ metadata:
   name: repo-runner-role
 rules:
 - apiGroups: [""] # "" indicates the core API group
-  resources: ["pods", "nodes", "deployments"]
-  verbs: ["get", "watch", "list", "create", "update"]
+  resources: ["*"]
+  verbs: ["get", "watch", "list", "create", "update", "delete"]
 ---
 apiVersion: v1
 kind: ServiceAccount
