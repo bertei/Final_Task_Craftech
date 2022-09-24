@@ -60,8 +60,8 @@ jobs:
       - name: Install helm chart's
         run: |
           helm upgrade --install -f testapp-chart-dynamic/values/testapp_db-values.yml testapp-db-microservice testapp-chart-dynamic
-          helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=latest testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"      
-          helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=latest testapp-backend-microservice testapp-chart-dynamic --timeout "3m0s"
+          #helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=latest testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"      
+          #helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=latest testapp-backend-microservice testapp-chart-dynamic --timeout "3m0s"
       - name: Sleep for 30 seconds
         uses: jakejarvis/wait-action@master
         with:
