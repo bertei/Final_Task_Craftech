@@ -1,0 +1,28 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: repo-runner-role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods", "nodes", "deployments"]
+  verbs: ["get", "watch", "list", "create", "update"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: repo-runner-sa
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: repo-runner-rolebinding
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: repo-runner-sa
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: repo-runner-role
+  apiGroup: ""
