@@ -17,6 +17,7 @@ rules:
   - rbac.authorization.k8s.io
   - roles.rbac.authorization.k8s.io
   - authorization.k8s.io
+  - batch
   resources: ["*"]
   verbs: ["*"]
   #resources: ["*"]
