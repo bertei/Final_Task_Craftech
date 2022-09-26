@@ -79,10 +79,8 @@ jobs:
       ##    kubectl describe pod $POD3
       - name: Expose services using minikube 'service' command
         run: |
-          echo "------------------Minikube service list------------------"
-          minikube service list
-          minikube service testapp-frontend-service --url
           echo "------------------opening frontend service------------------"
+          minikube service testapp-frontend-service --url
           curl $(minikube service testapp-frontend-service --url)
           minikube service testapp-backend-service --url
           echo "------------------opening backend service------------------"
