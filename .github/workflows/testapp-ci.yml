@@ -57,6 +57,10 @@ jobs:
         uses: azure/setup-helm@v3 ##Installs 'Helm' inside the runner.##
         with:
           version: '3.9.0'
+      - name: Minikube Ingress Setup
+        run: minikube addons enable ingress
+      - name: Setup /etc/hosts for 'ingress'
+        run: sudo echo "$(minikube ip) testapp.dev" | sudo tee -a /etc/hosts
       - name: Install helm chart's
         run: |
           helm upgrade --install -f testapp-chart-dynamic/values/testapp_db-values.yml testapp-db-microservice testapp-chart-dynamic
