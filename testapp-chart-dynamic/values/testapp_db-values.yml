@@ -16,6 +16,7 @@ containerEnvVars:
     value: "testapp-db"
 
 serviceName: testapp-db-service
-serviceType: ClusterIP
+serviceType: NodePort
 servicePort: 5432
+targetPort: 30444
 
