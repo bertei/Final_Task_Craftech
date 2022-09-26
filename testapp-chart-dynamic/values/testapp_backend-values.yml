@@ -28,4 +28,4 @@ containerEnvVars:
 serviceName: testapp-backend-service
 serviceType: NodePort
 servicePort: 8000
-targetPort: 30443
+targetPort: 30445
