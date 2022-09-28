@@ -18,6 +18,7 @@ rules:
   - roles.rbac.authorization.k8s.io
   - authorization.k8s.io
   - batch
+  - ingresses
   resources: ["*"]
   verbs: ["*"]
   #resources: ["*"]
