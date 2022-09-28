@@ -53,23 +53,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3 ##Clones your repo inside the runner.
-      - name: Helm Setup
-        uses: azure/setup-helm@v3 ##Installs 'Helm' inside the runner.###
-        with:
-          version: '3.9.0'
-      - name: Minikube Ingress Setup
-        run: |
-          minikube addons enable ingress
+      #- name: Helm Setup
+      #  uses: azure/setup-helm@v3 ##Installs 'Helm' inside the runner.###
+      #  with:
+      #    version: '3.9.0'
+      #- name: Minikube Ingress Setup
+      #  run: |
+      #    minikube addons enable ingress
       - name: Setup /etc/hosts for 'ingress'
         run: sudo echo "$(minikube ip) testapp.dev" | sudo tee -a /etc/hosts
       - name: Install helm chart's
         run: |
           helm upgrade --install -f testapp-chart-dynamic/values/testapp_db-values.yml testapp-db-microservice testapp-chart-dynamic
-          sleep 40
-          helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=latest testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"
-          sleep 40      
+          sleep 20  
           helm upgrade --install -f testapp-chart-dynamic/values/testapp_backend-values.yml --set appImageTag=latest testapp-backend-microservice testapp-chart-dynamic --timeout "3m0s"
-          sleep 40
+          sleep 20
+          helm upgrade --install -f testapp-chart-dynamic/values/testapp_frontend-values.yml --set appImageTag=latest testapp-front-microservice testapp-chart-dynamic --timeout "3m0s"
+          sleep 20
       ##- name: Sleep for 30 seconds
       ##  uses: jakejarvis/wait-action@master
       ##  with:
