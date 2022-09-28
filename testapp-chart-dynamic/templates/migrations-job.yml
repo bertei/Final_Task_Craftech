@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: backend-migration-manifest
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": "hook-succeeded"
 spec:
   template:
@@ -20,13 +20,13 @@ spec:
             - name: SQL_ENGINE
               value: django.db.backends.postgresql
             - name: SQL_DATABASE
-              value: testapp-db
+              value: "testapp-db"
             - name: SQL_USER
-              value: admin
+              value: "admin"
             - name: SQL_PASSWORD
               value: "12345678"
             - name: SQL_HOST
-              value: testapp-db-service
+              value: "testapp-db-service"
             - name: SQL_PORT
               value: "5432"
             - name: RUNSERVER_PORT

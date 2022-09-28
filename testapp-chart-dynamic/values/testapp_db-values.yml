@@ -15,7 +15,7 @@ containerEnvVars:
   - name: POSTGRES_DB
     value: "testapp-db"
 
-serviceName: testapp-db-service
-serviceType: NodePort
+serviceName: "testapp-db-service"
+serviceType: "NodePort"
 servicePort: 5432
 targetPort: 30444
