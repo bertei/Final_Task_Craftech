@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: backend-migration-manifest
   annotations:
-    "helm.sh/hook": pre-upgrade,post-install
+    "helm.sh/hook": pre-upgrade
     "helm.sh/hook-delete-policy": "hook-succeeded"
 spec:
   template:
@@ -31,5 +31,8 @@ spec:
               value: "5432"
             - name: RUNSERVER_PORT
               value: "8000"
-      restartPolicy: Never
-  backoffLimit: 2
+      restartPolicy: OnFailure
+      terminationGracePeriodSeconds: 0
+  backoffLimit: 3
+  completions: 1
+  parallelism: 1  
