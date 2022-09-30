@@ -33,6 +33,6 @@ spec:
               value: "8000"
       restartPolicy: OnFailure
       terminationGracePeriodSeconds: 0
-  backoffLimit: 3
-  completions: 1
-  parallelism: 1  
+  #backoffLimit: 3
+  #completions: 1
+  #parallelism: 1  
